@@ -54,7 +54,7 @@ LaTeX version 1999/12/01 or later.
 %<class>\NeedsTeXFormat{LaTeX2e}[1999/12/01]
 %<class>\ProvidesClass{ustcthesis}
 %<*class>
-    [2017/02/26 v2.1.4 USTC thesis template]
+    [2017/05/09 v2.2.4 USTC thesis template]
 %</class>
 %
 %<*driver>
@@ -306,14 +306,15 @@ LaTeX version 1999/12/01 or later.
 %
 %
 %
-% \section{论文选项}
+% \section{论文参数设置}
 %
+% \subsection{文档类参数}
 % \cls{ustcthesis} 提供了若干选项，应在论文开始时设置，如：
 % \begin{latex}
-% \documentclass[doctor,pdf]{ustcthesis}
+% \documentclass[doctor,english,pdf]{ustcthesis}
 % \end{latex}
 %
-% 其中论文类型是必需参数：
+% 其中论文类型是\emph{必需参数}：
 % \begin{center}
 % \begin{tabular}{p{.15\textwidth}p{.7\textwidth}}
 %     \toprule
@@ -324,15 +325,25 @@ LaTeX version 1999/12/01 or later.
 % \end{tabular}
 % \end{center}
 %
-% 以下是可选参数，用于设置论文格式：
+% 以下是可选参数，可以选择语言：
+% \begin{center}
+% \begin{tabular}{p{.15\textwidth}p{.7\textwidth}}
+%     \toprule
+%     \opt{chinese} & 中文，默认 \\
+%     \opt{english} & English \\
+%     \bottomrule
+% \end{tabular}
+% \end{center}
+%
+% 还可以设置论文的页面格式：
 % \begin{center}
 % \begin{tabular}{p{.15\textwidth}p{.7\textwidth}}
 %     \toprule
 %     \opt{print} & 用于打印纸质论文，默认 \\
-%     \opt{pdf} & 适于屏幕阅读，会开启 \opt{onside}、\opt{pagecenter} 选项，
+%     \opt{pdf} & 适于屏幕阅读，会开启 \opt{oneside}、\opt{pagecenter} 选项，
 %     并且保留超链接颜色 \\
 %     \midrule
-%     \opt{onside} & 单面打印，\opt{bachelor} 默认 \\
+%     \opt{oneside} & 单面打印，\opt{bachelor} 默认 \\
 %     \opt{twoside} & 双面打印，\opt{doctor}、\opt{master} 默认 \\
 %     \midrule
 %     \opt{openany} & 新的一章仅在下一页开始 \\
@@ -345,10 +356,6 @@ LaTeX version 1999/12/01 or later.
 % \end{tabular}
 % \end{center}
 %
-%
-%
-% \section{字体设置}
-%
 % \subsection{中文字体}
 % \cls{ustcthesis} 只以 \pkg{xeCJK} 的方式提供中文支持，不支持 CJK 方式，
 % 所以用户必须使用UTF-8 编码保存源文件，并且用 |xelatex| 命令进行编译。
@@ -360,7 +367,7 @@ LaTeX version 1999/12/01 or later.
 %     \toprule
 %     操作系统 & 中文字库 \\
 %     \midrule
-%     OS X & 华文字库 \\
+%     macOS & 华文字库 \\
 %     Windows Vista 及以后版本 & 中易字库 + 微软雅黑 \\
 %     Windows XP 及以前版本 & 中易字库 \\
 %     其他 & Fandol 字库 \\
@@ -368,59 +375,38 @@ LaTeX version 1999/12/01 or later.
 % \end{tabular}
 % \end{center}
 %
-% 用户也可以在调用文档类时加入选项 \opt{fontset=\meta{font}} 来显式地指定加载的字库，如：
-% \begin{latex}
-% \documentclass[doctor,fontset=mac]{ustcthesis}
-% \end{latex}
-% \meta{font} 有以下预定义的字库配置：
-% \begin{description}
-%     \item[\opt{adobe}] 使用 Adobe 公司的四款中文字体。
-%     \item[\opt{fandol}] 使用 Fandol 中文字体。
-%     \item[\opt{founder}] 使用方正公司的中文字体。
-%     \item[\opt{mac}] 使用 Mac OS X 系统下的华文字体。
-%     \item[\opt{ubuntu}] 使用 Ubuntu 系统下的文泉驿和文鼎字体。
-%     \item[\opt{windows}] 使用简体中文 Windows 系统下的中文字体，自动判断 Windows 系
-%         统版本，采用 |windowsnew| 或 |windowsold| 的设置。
-%     \item[\opt{windowsnew}] 使用简体中文 Windows Vista 或之后系统下的中易字体和微软
-%         雅黑字体。
-%     \item[\opt{windowsold}] 使用简体中文 Windows XP 或之前系统下的中易字体。
-%     \item[\opt{none}] 不配置中文字体，需要用户自己配置，
-%         参见 \pkg{ctex}、\pkg{fontspec} 宏包。
-% \end{description}
+% 用户也可以在调用文档类时加入选项 \opt{fontset=\meta{font}} 来显式地指定加载的字库，参见 \pkg{ctex}、\pkg{fontspec} 宏包。
 %
 % \subsection{英文字体}
 % 模板中使用了三种英文，包括衬线字体 Times New Roman、无衬线字体 Arial 和等宽字体
 % Courier New 。Windows和Mac下自带这三种英文字体，Linux下则需要从其他地方复制字体到
 % 本机。
 %
-% \subsection{字体命令}
 %
-% \CTeX{} 提供了一些设置中文字体的命令，但是不建议使用，参见附录 \ref{sec:caution}。\\
-% \DescribeMacro{\songti} 宋体 \\
-% \DescribeMacro{\heiti} 黑体 \\
-% \DescribeMacro{\fangsong} 仿宋 （ \opt{ubuntu} 字库中未定义）\\
-% \DescribeMacro{\kaishu} 楷书 \\
-% \DescribeMacro{\lishu} 隶书 （仅限于 \opt{windows} 和 \opt{founder} 字库） \\
-% \DescribeMacro{\youyuan} 圆体 （仅限于 \opt{windows} 和 \opt{founder} 字库） \\
-% \DescribeMacro{\yahei} 微软雅黑 （仅限于 \opt{windowsnew} 字库）\\
 %
-% \subsection{字号}
-%
-% \DescribeMacro{\zihao}
-% 中文字号的设置命令是 \cs{zihao}\marg{字号}，例如 |\zihao{3}|。
-% 可以使用的参数有16 个，小号字体在前面加负号表示，从大到小依次为：
+% \section{《规范》中的若干问题}
+% 在模板的开发中，我们发现了《规范》中的一些问题，比如附录中的格式示例与
+% 其正文的要求矛盾，甚至本身的要求也自相矛盾。
+% 在这些情况下，我们尽可能地按照《规范》正文中的要求处理，在特殊情况下按照
+% 排版的惯例执行。
+% 这些矛盾之处罗列如下，以免引起误解。
 % \begin{center}
-% \begin{tabular}{cccccccc}
-%     \toprule
-%     初号 & 小初 & 一号 & 小一 & 二号 & 小二 & 三号 & 小三 \\
-%     0 & -0 & 1 & -1 & 2 & -2 & 3 & -3 \\
-%     \midrule
-%     四号 & 小四 & 五号 & 小五 & 六号 & 小六 & 七号 & 八号 \\
-%     4 & -4 & 5 & -5 & 6 & -6 & 7 & 8 \\
-%     \bottomrule
+% \begin{tabular}{|l|l|l|}
+%   \toprule
+%   章节     & 《规范》正文的描述                  & 《格式示例》 \\
+%   \midrule
+%   2.4     & “目录应包括论文的全部内容，包括中英文摘要和附录等” & 没有摘要 \\
+%   \midrule
+%   2.6.2.1 & “各层次标题一律用 阿拉伯数字连续编号” &  \\
+%   3.6     & 示例：“第一章” & “第 1 章” \\
+%   \midrule
+%   2.6.2.3 & “页码位置居于页脚居中” &  \\
+%   3.1     & “宋体 10.5 磅页面下脚右端” & 居中 \\
+%   \midrule
+%   3.5     & 目录示例：“第 1 章” & “第一章” \\
+%   \bottomrule
 % \end{tabular}
 % \end{center}
-% \noindent 英文字体大小会自动保持和中文字体一致。
 %
 %
 %
@@ -444,7 +430,10 @@ LaTeX version 1999/12/01 or later.
 % \end{enumerate}
 %
 % 示例文档 \file{main.tex} 中的致谢、目录等章节的顺序，是按照研究生论文的格式组织内容的，
-% 与本科生要求的顺序有所不同，用户可能需要手动调整顺序。
+% \emph{本科生需要手动调整顺序}。
+%
+% 如果使用文档累选项 \opt{print} （默认），“原创性声明” 页则会加在扉页后；若为 \opt{pdf}，则没有声明页。
+%
 %
 % \subsection{扉页}
 % 封面的内容由印刷厂统一制作，\cls{ustcthesis} 的内容从扉页开始。
@@ -465,8 +454,6 @@ LaTeX version 1999/12/01 or later.
 %     \bottomrule
 % \end{tabular}
 % \end{center}
-%
-% 若论文选项 \opt{print} 有效，“原创性声明” 页则会加在扉页后，若为 \opt{pdf}，则没有声明页。
 %
 % \subsection{摘要等环境}
 % \DescribeEnv{abstract}
@@ -526,7 +513,7 @@ LaTeX version 1999/12/01 or later.
 % 本模板还提供了 \cs{note\marg{text}} 命令，用于在图表中添加注释。
 %
 % \subsection{数学}
-% \cls{ustcthesis} 定义了数学定理格式 |ustcplain|（默认使用）以及一些常用的环境：
+% \file{ustcextra.sty} 定义了数学定理格式 |ustcplain|（默认使用）以及一些常用的环境：
 % \begin{center}
 % \begin{tabular}{*{5}{l}}
 %     \toprule
@@ -575,6 +562,10 @@ LaTeX version 1999/12/01 or later.
 % \bibliographystyle{ustcnumerical}
 % \end{latex}
 % 则使用 numerical 风格。
+%
+% 有一小撮同学坚持使用在文中的 numerical 风格，如“见文献[2]”，
+% 模板还提供了 ustcinline 风格。
+%
 %
 % \clearpage
 % \appendix
@@ -658,14 +649,12 @@ LaTeX version 1999/12/01 or later.
 %
 % \begin{itemize}
 % \item
-%   \href{http://mirrors.ctan.org/info/lshort/english/lshort.pdf}{A (Not
-%   So) Short In­tro­duc­tion to \LaTeX2e}:
-%   经典的入门资料，有\href{https://raw.githubusercontent.com/louisstuart96/lshort-new-zh-cn/master/lshort-zh-cn.pdf}{中文翻译版}。
+%   \href{http://mirrors.ustc.edu.cn/CTAN/info/lshort/chinese/lshort-zh-cn.pdf}{一份不太简短的 \LaTeXe{} 介绍}：经典的入门资料的新翻译版。
 % \item
-%   \href{http://dralpha.altervista.org/zh/tech/lnotes2.pdf}{LaTeX Notes}:
+%   \href{http://dralpha.altervista.org/zh/tech/lnotes2.pdf}{\LaTeX{} Notes}:
 %   一份诙谐幽默的中文入门资料
 % \item
-%   刘海洋《LaTeX 入门》： 较为详细的关于 LaTeX
+%   刘海洋《\LaTeX{} 入门》： 较为详细的关于 \LaTeX{}
 %   的中文书籍，其他中文书已经过时。
 % \end{itemize}
 %
@@ -688,7 +677,14 @@ LaTeX version 1999/12/01 or later.
 % 因为你的编辑器不是使用 UTF-8 编码。\cls{ustcthesis} 中文只支持 \pkg{xeCJK} 方式，
 % 必须使用 UTF-8 编码。中文版 Windows 的默认编码是 GBK 。
 %
-% \subsection{MacTeX 2015 生成的 pdf 超链接为什么始终为红色？}
+% \subsection{为何生成的PDF有空白页？}
+% 这是为了双面打印设置的，如果要生成用于电子阅读的 PDF，可以在文档类选项中加入
+% |pdf|，比如 |\documentclass[doctor,pdf]{ustcthesis}|。
+%
+% \subsection{为何没有生成封面和书脊？}
+% 封面和书脊由印刷厂统一制作，本模板的内容从扉页开始。
+%
+% \subsection{MacTeX 2015 生成的 PDF 超链接为什么始终为红色？}
 % 这是 MacTeX 2015 中 hyperref 宏包的一个 bug，升级宏包后可以生成正常颜色，
 % 方法见 \ref{sec:update} 。
 %
@@ -785,6 +781,8 @@ LaTeX version 1999/12/01 or later.
 \DeclareBoolOption[false]{bachelor}
 \DeclareBoolOption[false]{pdf}
 \DeclareComplementaryOption{print}{pdf}
+\DeclareBoolOption[false]{english}
+\DeclareComplementaryOption{chinese}{english}
 %    \end{macrocode}
 % |ustc@page| 这一 family 用来设置分页方式
 %    \begin{macrocode}
@@ -808,6 +806,9 @@ LaTeX version 1999/12/01 or later.
 \ifustc@opt@pdf
     \ustc@page@onesidetrue
     \ustc@page@pageouterfalse
+\fi
+\ifustc@opt@english
+  \PassOptionsToClass{scheme=plain}{ctexbook}
 \fi
 %    \end{macrocode}
 % 处理其他的选项
@@ -863,6 +864,7 @@ LaTeX version 1999/12/01 or later.
     unicode=true,
     linktoc=all,
 }
+\urlstyle{same}
 %    \end{macrocode}
 % 如果为 |pdf| 样式，设置 hyperlink 颜色
 %    \begin{macrocode}
@@ -934,43 +936,58 @@ LaTeX version 1999/12/01 or later.
 %    \end{macrocode}
 % \end{macro}
 %
-% \subsection{汉化}
+% \subsection{设置语言}
+% 这里设置了中英文的各种名字。
+% \changes{v2.1.5}{2017/04/15}{Add English version.}
+% \changes{v2.2.2}{2017/04/26}{Enhance autoref names.}
 %    \begin{macrocode}
-\renewcommand\contentsname{目\zhspace 录}
-\renewcommand\listfigurename{图目录}
-\renewcommand\listtablename{表目录}
-\newcommand\ustc@pdf@contentsname{目录}
-% \newcommand\ustc@assertionname{Assertion}
-% \newcommand\ustc@axiomname{Axiom}
-% \newcommand\ustc@corollaryname{Corollary}
-% \newcommand\ustc@definitionname{Definition}
-% \newcommand\ustc@examplename{Example}
-% \newcommand\ustc@lemmaname{Lemma}
-% \newcommand\ustc@proofname{Proof}
-% \newcommand\ustc@propositionname{Proposition}
-% \newcommand\ustc@remarkname{Remark}
-% \newcommand\ustc@theoremname{Theorem}
-\newcommand\ustc@assertionname{断言}
-\newcommand\ustc@axiomname{公理}
-\newcommand\ustc@corollaryname{推论}
-\newcommand\ustc@definitionname{定义}
-\newcommand\ustc@examplename{例}
-\newcommand\ustc@lemmaname{引理}
-\newcommand\ustc@proofname{证明}
-\newcommand\ustc@propositionname{命题}
-\newcommand\ustc@remarkname{注}
-\newcommand\ustc@theoremname{定理}
+\ifustc@opt@english
+  \newcommand\ustc@contentsname{\contentsname}
+  \newcommand\ustc@pdf@contentsname{\contentsname}
+  \renewcommand\figurename{Fig.}
+  \newcommand\ustc@notesname{\textbf{Notes}: }
+  \newcommand\ustc@acknowledgementsname{Acknowledgements}
+  \newcommand\ustc@pdf@acknowledgementsname{Acknowledgements}
+  \newcommand\ustc@publicationsname{Publications}
+  \newcommand\ustc@notationname{Notation}
+\else
+  \renewcommand\contentsname{目\zhspace 录}
+  \newcommand\ustc@pdf@contentsname{目录}
+  \renewcommand\listfigurename{图目录}
+  \renewcommand\listtablename{表目录}
+  \newcommand\ustc@notesname{\textbf{注}：}
+  \newcommand\ustc@acknowledgementsname{致\hspace{\ccwd}谢}
+  \newcommand\ustc@pdf@acknowledgementsname{致谢}
+  \newcommand\ustc@publicationsname{在读期间发表的学术论文与取得的研究成果}
+  \newcommand\ustc@notationname{符号说明}
+  \def\equationautorefname~#1\null{公式~(#1)\null}%
+  \def\footnoteautorefname{脚注}%
+  \def\itemautorefname~#1\null{第~#1~项\null}%
+  \def\figureautorefname{图}%
+  \def\tableautorefname{表}%
+  \def\partautorefname~#1\null{第~#1~部分\null}%
+  \def\appendixautorefname{附录}%
+  \def\chapterautorefname~#1\null{第~#1~章\null}%
+  \def\sectionautorefname~#1\null{第~#1~节\null}%
+  \def\subsectionautorefname~#1\null{第~#1~小节\null}%
+  \def\subsubsectionautorefname~#1\null{第~#1~小小节\null}%
+  \def\paragraphautorefname~#1\null{第~#1~段\null}%
+  \def\subparagraphautorefname~#1\null{第~#1~小段\null}%
+  \def\theoremautorefname{定理}%
+  \def\pageautorefname~#1\null{第~#1~页\null}%
+\fi
 %    \end{macrocode}
 %
 % \subsection{页面设置}
 % 首先用 \pkg{geometry} 宏包设置纸张和页面。
+% \changes{v2.2}{2017/04/17}{Fix page layout bug.}
 %    \begin{macrocode}
 \RequirePackage{geometry}
 \geometry{
     paper=a4paper,
     top=2.54cm, bottom=2.54cm,
     left=3.17cm, right=3.17cm,
-    headsep=0.74cm, headheight=0cm,
+    headsep=0.74cm, headheight=0.34cm,
     footskip=0.79cm}
 %    \end{macrocode}
 % 再用 \pkg{titleps} 宏包设置页眉页码，\cs{if@mainmatter} 控制前言或是正文的页眉，
@@ -1092,8 +1109,8 @@ LaTeX version 1999/12/01 or later.
 %    \end{macrocode}
 % \end{macro}
 %
-% \begin{macro}{\make@cntitle}
 % \changes{v2.1.2}{2016/04/27}{Use tikz to design title page.}
+% \changes{v2.2}{2017/04/17}{Resize school title.}
 % 现在开始设计封面。如果“学科专业” 一栏放不下，可以将文字装进一个 \cs{parbox}，比如\\
 % |\parbox[t]{5cm}{A VERY LONG TEXT}|
 %    \begin{macrocode}
@@ -1102,7 +1119,7 @@ LaTeX version 1999/12/01 or later.
         \tikz[remember picture,overlay]%
             \node [yshift=-4cm] at (current page.north) [below,align=flush center]%
                 {\parbox{\textwidth}{\raggedleft\fangsong\setfontsize{14bp}\ustc@secrettext}};%
-        \vpostext{5.2cm}{\includegraphics[width=11cm]{figures/ustc_logo_text}}%
+        \vpostext{5.2cm}{\includegraphics[height=37bp]{figures/ustc_logo_text}}%
         \vpostext{8.5cm}{\sffamily\setfontsize{56bp}\ustc@thesisname}%
         \vpostext{11cm}{\includegraphics[height=4cm]{figures/ustc_logo_fig}}%
         \vpostext{15.8cm}{\sffamily\bfseries\setfontsize{26bp}\ustc@title}%
@@ -1118,7 +1135,6 @@ LaTeX version 1999/12/01 or later.
                 \end{tabular}};%
     \end{titlepage}}
 %    \end{macrocode}
-% \end{macro}
 % \begin{macro}{\make@entitle}
 % 由于《规范》对宽度的限制，可能一行里放不下，需要使用 \cs{parbox}
 %    \begin{macrocode}
@@ -1147,8 +1163,8 @@ LaTeX version 1999/12/01 or later.
 % \end{macro}
 %
 % \subsection{原创性声明}
-% \begin{macro}{\make@statement}
 % 定义原创性声明
+% \changes{v2.2}{2017/04/17}{Adjust statement page layout.}
 %    \begin{macrocode}
 \newcommand{\ustc@declaretext} {
 本人声明所呈交的学位论文，是本人在导师指导下进行研究工作所取得的成果。
@@ -1167,38 +1183,38 @@ LaTeX version 1999/12/01 or later.
 }
 \newcommand\make@statement{
     \setfontsize{12bp}[20bp]
-    \vspace*{0.5cm}
+    \vspace*{-0.15cm}
     \begin{center}
-    \zihao{3}\textbf{中国科学技术大学学位论文原创性声明}
+      \setfontsize{16bp}\textbf{中国科学技术大学学位论文原创性声明}
     \end{center}
+    \vskip 0.3cm
 
-    \par\ustc@declaretext\par
+    \ustc@declaretext\par
 
-    \vskip 1cm
-    作者签名： \ustc@underline[6em]{} \hspace{5em} 签字日期：\ustc@underline[8em]{}
-    \vskip 3cm
+    \vskip 0.7cm
+    \begin{tabular}{p{7cm}p{7cm}}
+      作者签名：\ustc@underline[7.4em]{} & 签字日期：\ustc@underline[7.4em]{}
+    \end{tabular}
+    \vskip 2.6cm
 
     \begin{center}
-    \zihao{3}\textbf{中国科学技术大学学位论文授权使用声明}
+      \setfontsize{16bp}\textbf{中国科学技术大学学位论文授权使用声明}
     \end{center}
+    \vskip 0.3cm
 
-    \par\ustc@authorization\par
+    \ustc@authorization\par
     \vskip 0.5cm
-    \raisebox{1.1mm}{\fbox{\rule{0pt}{1.4mm}\rule{1.4mm}{0pt}}} 公开
-    \hspace{0.5cm}
-    \raisebox{1.1mm}{\fbox{\rule{0pt}{1.4mm}\rule{1.4mm}{0pt}}}
-    保密（\ustc@underline[2em]{}\hspace{0.1em} 年）
+    $\square$公开 \hspace{0.4cm} $\square$保密（\ustc@underline[2em]{}年）
 
     \vskip 0.5cm
 
     {\renewcommand{\arraystretch}{2.0}
-    \begin{tabular}{p{6cm}p{6cm}}
-    作者签名：\ustc@underline{} & 导师签名：\ustc@underline{} \\
-    签字日期：\ustc@underline{} & 签字日期：\ustc@underline{} \\
+    \begin{tabular}{p{7cm}p{7cm}}
+      作者签名：\ustc@underline[7.4em]{} & 导师签名：\ustc@underline[7.4em]{} \\
+      签字日期：\ustc@underline[7.4em]{} & 签字日期：\ustc@underline[7.4em]{} \\
     \end{tabular}}
 }
 %    \end{macrocode}
-% \end{macro}
 %
 % \subsection{摘要}
 % \begin{environment}{abstract}
@@ -1234,10 +1250,11 @@ LaTeX version 1999/12/01 or later.
 % \subsection{目录}
 % \begin{macro}{\tableofcontents}
 % 为了在 PDF 书签中加入目录，重新定义 \cs{tableofcontents}
+% \changes{v2.2.3}{2017/05/04}{Fix toc pdf mark.}
 %    \begin{macrocode}
 \let\ustc@save@tableofcontents=\tableofcontents
 \renewcommand\tableofcontents{%
-    \clearpage%
+    \cleardoublepage%
     \ifustc@opt@bachelor
         \pagenumbering{arabic}%
     \fi
@@ -1245,36 +1262,59 @@ LaTeX version 1999/12/01 or later.
     \ustc@save@tableofcontents}
 %    \end{macrocode}
 % \end{macro}
-% 下面用 \pkg{titletoc} 宏包设置每级目录的格式
+% 下面用 \pkg{titletoc} 宏包设置每级目录的格式。
+% 由于 \pkg{ctex} 新引入了 \opt{tocline}，导致chatper 的前标题空白多了0.3em。
+% \changes{v2.2}{2017/04/16}{Fix toc font size using \cmd{setfontsize}.}
+% \changes{v2.2.2}{2017/04/25}{Fix bachelor toc font size.}
+% \changes{v2.2.2}{2017/05/02}{Fix toc spacing.}
+% \changes{v2.2.3}{2017/05/04}{Fix bachelor toc punct and spacing.}
 %    \begin{macrocode}
 \RequirePackage{titletoc}
 \newcommand\ustc@leaders{\titlerule*[0.5pc]{$\cdot$}}
-\titlecontents{chapter}
-    [0bp]
-    {\addvspace{6bp}\zihao{4}}
-    {\thecontentslabel\hspace*{0.5em}}
-    {}{\ustc@leaders\zihao{-4}\contentspage}
-\titlecontents{section}
-    [\ccwd]
-    {\addvspace{6bp}\zihao{-4}}
-    {\thecontentslabel\hspace*{0.5em}}
-    {}{\ustc@leaders\zihao{-4}\contentspage}
-\titlecontents{subsection}
-    [2\ccwd]
-    {\addvspace{6bp}\zihao{5}}
-    {\thecontentslabel\hspace*{0.5em}}
-    {}{\ustc@leaders\zihao{-4}\contentspage}
+\ifustc@opt@bachelor
+    \titlecontents{chapter}
+        [0bp]
+        {\setfontsize{12bp}[20bp]}
+        {\thecontentslabel\hskip\ccwd}
+        {}{\ustc@leaders\contentspage}
+    \titlecontents{section}
+        [\ccwd]
+        {\setfontsize{12bp}[20bp]}
+        {\thecontentslabel\hskip\ccwd}
+        {}{\ustc@leaders\contentspage}
+    \titlecontents{subsection}
+        [2\ccwd]
+        {\setfontsize{12bp}[20bp]}
+        {\thecontentslabel、}
+        {}{\ustc@leaders\contentspage}
+\else
+    \titlecontents{chapter}
+        [0bp]
+        {\addvspace{6bp}\setfontsize{14bp}[20bp]}
+        {\thecontentslabel\hspace*{0.5em}}
+        {}{\ustc@leaders\setfontsize{12bp}[20bp]\contentspage}
+    \titlecontents{section}
+        [\ccwd]
+        {\setfontsize{12bp}[20bp]}
+        {\thecontentslabel\hspace*{0.5em}}
+        {}{\ustc@leaders\setfontsize{12bp}[20bp]\contentspage}
+    \titlecontents{subsection}
+        [2\ccwd]
+        {\setfontsize{10.5bp}[20bp]}
+        {\thecontentslabel\hspace*{0.5em}}
+        {}{\ustc@leaders\setfontsize{12bp}[20bp]\contentspage}
+\fi
 %    \end{macrocode}
 % 同时设置图、表的目录格式
 %    \begin{macrocode}
 \titlecontents{figure}
     [\ccwd]
-    {\addvspace{6bp}\zihao{-4}}
+    {\addvspace{6bp}\setfontsize{12bp}}
     {\thecontentslabel\hspace*{0.5em}}
     {}{\ustc@leaders\contentspage}
 \titlecontents{table}
     [\ccwd]
-    {\addvspace{6bp}\zihao{-4}}
+    {\addvspace{6bp}\setfontsize{12bp}}
     {\thecontentslabel\hspace*{0.5em}}
     {}{\ustc@leaders\contentspage}
 %    \end{macrocode}
@@ -1307,43 +1347,86 @@ LaTeX version 1999/12/01 or later.
 % \subsection{正文}
 % 用 \pkg{ctex} 的接口设置全局的章节标题格式，注意由于 \pkg{ctex} 2.1 以下版本的 bug，
 % chapter 的 nameformat 和 titleformat 的这两行必须置空。
+%
+% \changes{v2.1.5}{2017/04/16}{Fix chapter title distance bug.}
+% \pkg{ctex} 2.4.3 以下版本的bug会导致章节标题前后的距离的实际值偏大，
+% 临时的解决方案是手动调整，偏移值为beforeskip=-31bp, afterskip=-10bp。
+% 但是\pkg{ctex} 2.2 前的beforeskip的符号有特殊意义，所以临时解决方案只用于
+% \pkg{ctex} 2.2 以及以上版本。
+%
 % 另外摘要、参考文献等章节在底层也是用 \cs{chapter} 实现的。
-% 这一部分以后可能用titlesec重新实现
+% 这一部分以后可能重新实现 \cs{chapter}。
 %    \begin{macrocode}
+\setcounter{secnumdepth}{3}
 \ctexset{
     chapter = {
         format = \centering\sffamily\bfseries\setfontsize{16bp},
         nameformat = {},
         titleformat = {},
         number = \arabic{chapter},
-        beforeskip = 24bp,
-        afterskip = 18bp,
+        aftername = \quad,
+        beforeskip = -7bp, % 24bp - 31bp
+        afterskip = 8bp, % 18bp - 10bp
+        % fixskip = true, % will be used in future version
     },
     section = {
-        format = \raggedright\sffamily\setfontsize{14bp},
+        format = \sffamily\setfontsize{14bp},
         beforeskip = 24bp,
         afterskip = 6bp,
     },
     subsection = {
-        format = \raggedright\sffamily\setfontsize{13bp},
+        format = \sffamily\setfontsize{13bp},
         beforeskip = 12bp,
         afterskip = 6bp,
     },
     subsubsection = {
-        format = \raggedright\sffamily\setfontsize{12bp},
+        format = \sffamily\setfontsize{12bp},
         beforeskip = 12bp,
         afterskip = 6bp,
     }
 }
+%    \end{macrocode}
+%
+% 设置本科生的章节标题。
+%    \begin{macrocode}
 \ifustc@opt@bachelor
-    \ctexset{section/format += \centering\zihao{-3}}
-    \ctexset{subsection/format += \zihao{4}}
+    \setcounter{secnumdepth}{4}
+    \ctexset{
+        chapter={
+            format = \centering\sffamily\setfontsize{16bp},
+            number = \chinese{chapter},
+        },
+        section = {
+            format = \centering\sffamily\setfontsize{15bp},
+            name   = {第,节},
+            number = \chinese{section},
+        },
+        subsection = {
+            format    = \sffamily\setfontsize{14bp},
+            number    = \chinese{subsection},
+            aftername = {、},
+        },
+        subsubsection = {
+            format    = {\rmfamily\setfontsize{12bp}},
+            number    = \arabic{subsubsection},
+            aftername = {.\ },
+            indent    = \ccwd,
+        },
+        paragraph = {
+            format    = {\rmfamily\setfontsize{12bp}},
+            name      = {(,)},
+            number    = \arabic{paragraph},
+            aftername = {\ },
+            indent    = 2\ccwd,
+        },
+        subparagraph = {
+            format    = {},
+            name      = {},
+            indent    = 2\ccwd,
+        },
+    }
 \fi
 % \assignpagestyle{\chapter}{empty}
-%    \end{macrocode}
-% 正文章节编号到 3 级 section 标题
-%    \begin{macrocode}
-\setcounter{secnumdepth}{3}
 %    \end{macrocode}
 % 正文段落文字格式设置
 %    \begin{macrocode}
@@ -1352,13 +1435,19 @@ LaTeX version 1999/12/01 or later.
 \else
     \renewcommand\normalsize{\setfontsize{12bp}[20bp]}
 \fi
+\setlength{\parindent}{2\ccwd}
 \setlength{\parskip}{0bp}
 %    \end{macrocode}
 %
 % \subsection{图、表}
 % 用 \pkg{caption} 宏包设置图、表的格式
+% 注意计算 belowskip 必须用 \pkg{calc} 宏包修正。
+% \changes{v2.2}{2017/04/17}{Fix distance below figure captions.}
+% \changes{v2.2.1}{2017/04/18}{Fix distance above figures.}
+% \changes{v2.2.2}{2017/04/25}{Fix caption spacing.}
 %    \begin{macrocode}
 \RequirePackage{caption}
+\RequirePackage{calc}
 \DeclareCaptionLabelSeparator{zhspace}{\hspace{\ccwd}}
 \captionsetup{
     format = hang,
@@ -1375,7 +1464,7 @@ LaTeX version 1999/12/01 or later.
 \captionsetup[figure]{
     position = bottom,
     aboveskip = 6bp,
-    belowskip = 12bp,
+    belowskip = {12bp-\intextsep},
 }
 \captionsetup[table]{
     position = top,
@@ -1390,7 +1479,7 @@ LaTeX version 1999/12/01 or later.
 %    \begin{macrocode}
 \newcommand\note[1]{%
     \captionsetup{position = bottom}
-    \caption*{\hangindent=2\ccwd\relax\textbf{注}：#1}}
+    \caption*{\hangindent=2\ccwd\relax\ustc@notesname#1}}
 %    \end{macrocode}
 % \end{macro}
 %
@@ -1407,7 +1496,7 @@ LaTeX version 1999/12/01 or later.
 %    \begin{macrocode}
 \newenvironment{notation}{%
     \ctexset{chapter/format += \rmfamily\setfontsize{12bp}}
-    \chapter{符号说明}
+    \chapter{\ustc@notationname}
     \setfontsize{10.5bp}[16bp]
     \setlength{\itemsep}{0bp}}{}
 %    \end{macrocode}
@@ -1417,11 +1506,13 @@ LaTeX version 1999/12/01 or later.
 % 目前 \BibTeX{} 使用的 .bst 格式 位于 \url{https://github.com/zepinglee/gbt-7714-2015}
 % \changes{v2.1}{2016/04/16}{Support both author-year and numerical bib style.}
 % \changes{v2.1.4}{2017/02/26}{Adopt bibliography style updates and fix a few bugs.}
+% \changes{v2.2.2}{2017/04/26}{Fix url font.}
+% \changes{v2.2.2}{2017/05/02}{Add inline citatinon style.}
 %    \begin{macrocode}
 \usepackage[sort&compress]{natbib}
+\newcommand\bibstyle@ustcnumerical{\bibpunct{[}{]}{,}{s}{,}{\textsuperscript{,}}}
+\newcommand\bibstyle@ustcinline{\bibpunct{[}{]}{,}{n}{,}{,}}
 \newcommand\bibstyle@ustcauthoryear{\bibpunct{(}{)}{;}{a}{,}{,}}
-\newcommand\bibstyle@ustcnumerical{\bibpunct{[}{]}{,}{s}{,}{,}}
-\renewcommand\bibfont{\setfontsize{10.5bp}[20bp]}
 \setlength{\bibsep}{0bp}
 \setlength{\bibhang}{1em}
 \ifustc@opt@bachelor
@@ -1429,6 +1520,15 @@ LaTeX version 1999/12/01 or later.
 \else
     \newcommand\ustcjournal{\relax}
 \fi
+\g@addto@macro\UrlBreaks{%
+  \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+  \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+  \do\u\do\v\do\w\do\x\do\y\do\z%
+  \do\A\do\B\do\C\do\D\do\E\do\F\do\G\do\H\do\I\do\J%
+  \do\K\do\L\do\M\do\N\do\O\do\P\do\Q\do\R\do\S\do\T%
+  \do\U\do\V\do\W\do\X\do\Y\do\Z%
+  \do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0%
+}
 %    \end{macrocode}
 % \begin{macro}{\bibliography}
 % 由于 \cs{bibliography} 位于正文中，页眉会默认显示“附录 参考文献”，所以修正页面风格；
@@ -1489,16 +1589,16 @@ LaTeX version 1999/12/01 or later.
 \newenvironment{acknowledgements}{%
     \ifustc@opt@bachelor
         \ctexset{chapter/format += \zihao{-2}}%
-        \chapter*{致\hspace{\ccwd}谢}%
+        \chapter*{\ustc@acknowledgementsname}%
     \else
-        \chapter[致谢]{致\hspace{\ccwd}谢}%
+        \chapter[\ustc@pdf@acknowledgementsname]{\ustc@acknowledgementsname}%
     \fi}{}
 %    \end{macrocode}
 % \end{environment}
 % \begin{environment}{publications}
 % 发表成果环境：
 %    \begin{macrocode}
-\newenvironment{publications}{\chapter{在读期间发表的学术论文与取得的研究成果}}{}
+\newenvironment{publications}{\chapter{\ustc@publicationsname}}{}
 %    \end{macrocode}
 % \end{environment}
 % 书脊部分代码无效
@@ -1542,5 +1642,6 @@ LaTeX version 1999/12/01 or later.
 %</class>
 %    \end{macrocode}
 %
+% \clearpage
 % \Finale
 \endinput

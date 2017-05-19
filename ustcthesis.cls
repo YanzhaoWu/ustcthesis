@@ -20,7 +20,7 @@
 %% 
 \NeedsTeXFormat{LaTeX2e}[1999/12/01]
 \ProvidesClass{ustcthesis}
-    [2017/02/26 v2.1.4 USTC thesis template]
+    [2017/05/09 v2.2.4 USTC thesis template]
 \RequirePackage{kvoptions}
 \SetupKeyvalOptions{family=ustc@opt, prefix=ustc@opt@, setkeys=\kvsetkeys}
 \DeclareBoolOption[false]{doctor}
@@ -28,6 +28,8 @@
 \DeclareBoolOption[false]{bachelor}
 \DeclareBoolOption[false]{pdf}
 \DeclareComplementaryOption{print}{pdf}
+\DeclareBoolOption[false]{english}
+\DeclareComplementaryOption{chinese}{english}
 \SetupKeyvalOptions{family=ustc@page, prefix=ustc@page@, setkeys=\kvsetkeys}
 \DeclareBoolOption[false]{oneside}
 \DeclareComplementaryOption{twoside}{oneside}
@@ -44,6 +46,9 @@
 \ifustc@opt@pdf
     \ustc@page@onesidetrue
     \ustc@page@pageouterfalse
+\fi
+\ifustc@opt@english
+  \PassOptionsToClass{scheme=plain}{ctexbook}
 \fi
 \ProcessKeyvalOptions*\relax
 \ifustc@page@oneside
@@ -76,6 +81,7 @@
     unicode=true,
     linktoc=all,
 }
+\urlstyle{same}
 \ifustc@opt@pdf
     \hypersetup{
         colorlinks=true,
@@ -115,26 +121,47 @@
 \ustc@define@term{enadvisor}
 \ustc@define@term{encoadvisor}
 \ustc@define@term{ensubmitdate}
-\renewcommand\contentsname{目\zhspace 录}
-\renewcommand\listfigurename{图目录}
-\renewcommand\listtablename{表目录}
-\newcommand\ustc@pdf@contentsname{目录}
-\newcommand\ustc@assertionname{断言}
-\newcommand\ustc@axiomname{公理}
-\newcommand\ustc@corollaryname{推论}
-\newcommand\ustc@definitionname{定义}
-\newcommand\ustc@examplename{例}
-\newcommand\ustc@lemmaname{引理}
-\newcommand\ustc@proofname{证明}
-\newcommand\ustc@propositionname{命题}
-\newcommand\ustc@remarkname{注}
-\newcommand\ustc@theoremname{定理}
+\ifustc@opt@english
+  \newcommand\ustc@contentsname{\contentsname}
+  \newcommand\ustc@pdf@contentsname{\contentsname}
+  \renewcommand\figurename{Fig.}
+  \newcommand\ustc@notesname{\textbf{Notes}: }
+  \newcommand\ustc@acknowledgementsname{Acknowledgements}
+  \newcommand\ustc@pdf@acknowledgementsname{Acknowledgements}
+  \newcommand\ustc@publicationsname{Publications}
+  \newcommand\ustc@notationname{Notation}
+\else
+  \renewcommand\contentsname{目\zhspace 录}
+  \newcommand\ustc@pdf@contentsname{目录}
+  \renewcommand\listfigurename{图目录}
+  \renewcommand\listtablename{表目录}
+  \newcommand\ustc@notesname{\textbf{注}：}
+  \newcommand\ustc@acknowledgementsname{致\hspace{\ccwd}谢}
+  \newcommand\ustc@pdf@acknowledgementsname{致谢}
+  \newcommand\ustc@publicationsname{在读期间发表的学术论文与取得的研究成果}
+  \newcommand\ustc@notationname{符号说明}
+  \def\equationautorefname~#1\null{公式~(#1)\null}%
+  \def\footnoteautorefname{脚注}%
+  \def\itemautorefname~#1\null{第~#1~项\null}%
+  \def\figureautorefname{图}%
+  \def\tableautorefname{表}%
+  \def\partautorefname~#1\null{第~#1~部分\null}%
+  \def\appendixautorefname{附录}%
+  \def\chapterautorefname~#1\null{第~#1~章\null}%
+  \def\sectionautorefname~#1\null{第~#1~节\null}%
+  \def\subsectionautorefname~#1\null{第~#1~小节\null}%
+  \def\subsubsectionautorefname~#1\null{第~#1~小小节\null}%
+  \def\paragraphautorefname~#1\null{第~#1~段\null}%
+  \def\subparagraphautorefname~#1\null{第~#1~小段\null}%
+  \def\theoremautorefname{定理}%
+  \def\pageautorefname~#1\null{第~#1~页\null}%
+\fi
 \RequirePackage{geometry}
 \geometry{
     paper=a4paper,
     top=2.54cm, bottom=2.54cm,
     left=3.17cm, right=3.17cm,
-    headsep=0.74cm, headheight=0cm,
+    headsep=0.74cm, headheight=0.34cm,
     footskip=0.79cm}
 \RequirePackage[pagestyles]{titlesec}
 \ifustc@opt@bachelor
@@ -230,7 +257,7 @@
         \tikz[remember picture,overlay]%
             \node [yshift=-4cm] at (current page.north) [below,align=flush center]%
                 {\parbox{\textwidth}{\raggedleft\fangsong\setfontsize{14bp}\ustc@secrettext}};%
-        \vpostext{5.2cm}{\includegraphics[width=11cm]{figures/ustc_logo_text}}%
+        \vpostext{5.2cm}{\includegraphics[height=37bp]{figures/ustc_logo_text}}%
         \vpostext{8.5cm}{\sffamily\setfontsize{56bp}\ustc@thesisname}%
         \vpostext{11cm}{\includegraphics[height=4cm]{figures/ustc_logo_fig}}%
         \vpostext{15.8cm}{\sffamily\bfseries\setfontsize{26bp}\ustc@title}%
@@ -283,34 +310,35 @@
 }
 \newcommand\make@statement{
     \setfontsize{12bp}[20bp]
-    \vspace*{0.5cm}
+    \vspace*{-0.15cm}
     \begin{center}
-    \zihao{3}\textbf{中国科学技术大学学位论文原创性声明}
+      \setfontsize{16bp}\textbf{中国科学技术大学学位论文原创性声明}
     \end{center}
+    \vskip 0.3cm
 
-    \par\ustc@declaretext\par
+    \ustc@declaretext\par
 
-    \vskip 1cm
-    作者签名： \ustc@underline[6em]{} \hspace{5em} 签字日期：\ustc@underline[8em]{}
-    \vskip 3cm
+    \vskip 0.7cm
+    \begin{tabular}{p{7cm}p{7cm}}
+      作者签名：\ustc@underline[7.4em]{} & 签字日期：\ustc@underline[7.4em]{}
+    \end{tabular}
+    \vskip 2.6cm
 
     \begin{center}
-    \zihao{3}\textbf{中国科学技术大学学位论文授权使用声明}
+      \setfontsize{16bp}\textbf{中国科学技术大学学位论文授权使用声明}
     \end{center}
+    \vskip 0.3cm
 
-    \par\ustc@authorization\par
+    \ustc@authorization\par
     \vskip 0.5cm
-    \raisebox{1.1mm}{\fbox{\rule{0pt}{1.4mm}\rule{1.4mm}{0pt}}} 公开
-    \hspace{0.5cm}
-    \raisebox{1.1mm}{\fbox{\rule{0pt}{1.4mm}\rule{1.4mm}{0pt}}}
-    保密（\ustc@underline[2em]{}\hspace{0.1em} 年）
+    $\square$公开 \hspace{0.4cm} $\square$保密（\ustc@underline[2em]{}年）
 
     \vskip 0.5cm
 
     {\renewcommand{\arraystretch}{2.0}
-    \begin{tabular}{p{6cm}p{6cm}}
-    作者签名：\ustc@underline{} & 导师签名：\ustc@underline{} \\
-    签字日期：\ustc@underline{} & 签字日期：\ustc@underline{} \\
+    \begin{tabular}{p{7cm}p{7cm}}
+      作者签名：\ustc@underline[7.4em]{} & 导师签名：\ustc@underline[7.4em]{} \\
+      签字日期：\ustc@underline[7.4em]{} & 签字日期：\ustc@underline[7.4em]{} \\
     \end{tabular}}
 }
 \newenvironment{abstract}{%
@@ -331,7 +359,7 @@
     \textbf{Key Words:} #1}
 \let\ustc@save@tableofcontents=\tableofcontents
 \renewcommand\tableofcontents{%
-    \clearpage%
+    \cleardoublepage%
     \ifustc@opt@bachelor
         \pagenumbering{arabic}%
     \fi
@@ -339,29 +367,47 @@
     \ustc@save@tableofcontents}
 \RequirePackage{titletoc}
 \newcommand\ustc@leaders{\titlerule*[0.5pc]{$\cdot$}}
-\titlecontents{chapter}
-    [0bp]
-    {\addvspace{6bp}\zihao{4}}
-    {\thecontentslabel\hspace*{0.5em}}
-    {}{\ustc@leaders\zihao{-4}\contentspage}
-\titlecontents{section}
-    [\ccwd]
-    {\addvspace{6bp}\zihao{-4}}
-    {\thecontentslabel\hspace*{0.5em}}
-    {}{\ustc@leaders\zihao{-4}\contentspage}
-\titlecontents{subsection}
-    [2\ccwd]
-    {\addvspace{6bp}\zihao{5}}
-    {\thecontentslabel\hspace*{0.5em}}
-    {}{\ustc@leaders\zihao{-4}\contentspage}
+\ifustc@opt@bachelor
+    \titlecontents{chapter}
+        [0bp]
+        {\setfontsize{12bp}[20bp]}
+        {\thecontentslabel\hskip\ccwd}
+        {}{\ustc@leaders\contentspage}
+    \titlecontents{section}
+        [\ccwd]
+        {\setfontsize{12bp}[20bp]}
+        {\thecontentslabel\hskip\ccwd}
+        {}{\ustc@leaders\contentspage}
+    \titlecontents{subsection}
+        [2\ccwd]
+        {\setfontsize{12bp}[20bp]}
+        {\thecontentslabel、}
+        {}{\ustc@leaders\contentspage}
+\else
+    \titlecontents{chapter}
+        [0bp]
+        {\addvspace{6bp}\setfontsize{14bp}[20bp]}
+        {\thecontentslabel\hspace*{0.5em}}
+        {}{\ustc@leaders\setfontsize{12bp}[20bp]\contentspage}
+    \titlecontents{section}
+        [\ccwd]
+        {\setfontsize{12bp}[20bp]}
+        {\thecontentslabel\hspace*{0.5em}}
+        {}{\ustc@leaders\setfontsize{12bp}[20bp]\contentspage}
+    \titlecontents{subsection}
+        [2\ccwd]
+        {\setfontsize{10.5bp}[20bp]}
+        {\thecontentslabel\hspace*{0.5em}}
+        {}{\ustc@leaders\setfontsize{12bp}[20bp]\contentspage}
+\fi
 \titlecontents{figure}
     [\ccwd]
-    {\addvspace{6bp}\zihao{-4}}
+    {\addvspace{6bp}\setfontsize{12bp}}
     {\thecontentslabel\hspace*{0.5em}}
     {}{\ustc@leaders\contentspage}
 \titlecontents{table}
     [\ccwd]
-    {\addvspace{6bp}\zihao{-4}}
+    {\addvspace{6bp}\setfontsize{12bp}}
     {\thecontentslabel\hspace*{0.5em}}
     {}{\ustc@leaders\contentspage}
 \ifustc@opt@bachelor
@@ -385,43 +431,80 @@
         \renewcommand\chapter{\ustc@save@chapter}%
     }%
 \fi
+\setcounter{secnumdepth}{3}
 \ctexset{
     chapter = {
         format = \centering\sffamily\bfseries\setfontsize{16bp},
         nameformat = {},
         titleformat = {},
         number = \arabic{chapter},
-        beforeskip = 24bp,
-        afterskip = 18bp,
+        aftername = \quad,
+        beforeskip = -7bp, % 24bp - 31bp
+        afterskip = 8bp, % 18bp - 10bp
+        % fixskip = true, % will be used in future version
     },
     section = {
-        format = \raggedright\sffamily\setfontsize{14bp},
+        format = \sffamily\setfontsize{14bp},
         beforeskip = 24bp,
         afterskip = 6bp,
     },
     subsection = {
-        format = \raggedright\sffamily\setfontsize{13bp},
+        format = \sffamily\setfontsize{13bp},
         beforeskip = 12bp,
         afterskip = 6bp,
     },
     subsubsection = {
-        format = \raggedright\sffamily\setfontsize{12bp},
+        format = \sffamily\setfontsize{12bp},
         beforeskip = 12bp,
         afterskip = 6bp,
     }
 }
 \ifustc@opt@bachelor
-    \ctexset{section/format += \centering\zihao{-3}}
-    \ctexset{subsection/format += \zihao{4}}
+    \setcounter{secnumdepth}{4}
+    \ctexset{
+        chapter={
+            format = \centering\sffamily\setfontsize{16bp},
+            number = \chinese{chapter},
+        },
+        section = {
+            format = \centering\sffamily\setfontsize{15bp},
+            name   = {第,节},
+            number = \chinese{section},
+        },
+        subsection = {
+            format    = \sffamily\setfontsize{14bp},
+            number    = \chinese{subsection},
+            aftername = {、},
+        },
+        subsubsection = {
+            format    = {\rmfamily\setfontsize{12bp}},
+            number    = \arabic{subsubsection},
+            aftername = {.\ },
+            indent    = \ccwd,
+        },
+        paragraph = {
+            format    = {\rmfamily\setfontsize{12bp}},
+            name      = {(,)},
+            number    = \arabic{paragraph},
+            aftername = {\ },
+            indent    = 2\ccwd,
+        },
+        subparagraph = {
+            format    = {},
+            name      = {},
+            indent    = 2\ccwd,
+        },
+    }
 \fi
-\setcounter{secnumdepth}{3}
 \ifustc@opt@bachelor
     \renewcommand\normalsize{\setfontsize{12bp}[22bp]}
 \else
     \renewcommand\normalsize{\setfontsize{12bp}[20bp]}
 \fi
+\setlength{\parindent}{2\ccwd}
 \setlength{\parskip}{0bp}
 \RequirePackage{caption}
+\RequirePackage{calc}
 \DeclareCaptionLabelSeparator{zhspace}{\hspace{\ccwd}}
 \captionsetup{
     format = hang,
@@ -438,7 +521,7 @@
 \captionsetup[figure]{
     position = bottom,
     aboveskip = 6bp,
-    belowskip = 12bp,
+    belowskip = {12bp-\intextsep},
 }
 \captionsetup[table]{
     position = top,
@@ -447,17 +530,17 @@
 }
 \newcommand\note[1]{%
     \captionsetup{position = bottom}
-    \caption*{\hangindent=2\ccwd\relax\textbf{注}：#1}}
+    \caption*{\hangindent=2\ccwd\relax\ustc@notesname#1}}
 \DeclareMathSizes{10.5bp}{10.5bp}{7.35bp}{5.25bp}
 \newenvironment{notation}{%
     \ctexset{chapter/format += \rmfamily\setfontsize{12bp}}
-    \chapter{符号说明}
+    \chapter{\ustc@notationname}
     \setfontsize{10.5bp}[16bp]
     \setlength{\itemsep}{0bp}}{}
 \usepackage[sort&compress]{natbib}
+\newcommand\bibstyle@ustcnumerical{\bibpunct{[}{]}{,}{s}{,}{\textsuperscript{,}}}
+\newcommand\bibstyle@ustcinline{\bibpunct{[}{]}{,}{n}{,}{,}}
 \newcommand\bibstyle@ustcauthoryear{\bibpunct{(}{)}{;}{a}{,}{,}}
-\newcommand\bibstyle@ustcnumerical{\bibpunct{[}{]}{,}{s}{,}{,}}
-\renewcommand\bibfont{\setfontsize{10.5bp}[20bp]}
 \setlength{\bibsep}{0bp}
 \setlength{\bibhang}{1em}
 \ifustc@opt@bachelor
@@ -465,6 +548,15 @@
 \else
     \newcommand\ustcjournal{\relax}
 \fi
+\g@addto@macro\UrlBreaks{%
+  \do\a\do\b\do\c\do\d\do\e\do\f\do\g\do\h\do\i\do\j%
+  \do\k\do\l\do\m\do\n\do\o\do\p\do\q\do\r\do\s\do\t%
+  \do\u\do\v\do\w\do\x\do\y\do\z%
+  \do\A\do\B\do\C\do\D\do\E\do\F\do\G\do\H\do\I\do\J%
+  \do\K\do\L\do\M\do\N\do\O\do\P\do\Q\do\R\do\S\do\T%
+  \do\U\do\V\do\W\do\X\do\Y\do\Z%
+  \do\1\do\2\do\3\do\4\do\5\do\6\do\7\do\8\do\9\do\0%
+}
 \renewenvironment{thebibliography}[1]{%
     \if@openright\cleardoublepage\else\clearpage\fi
     \@mainmatterfalse
@@ -498,11 +590,11 @@
 \newenvironment{acknowledgements}{%
     \ifustc@opt@bachelor
         \ctexset{chapter/format += \zihao{-2}}%
-        \chapter*{致\hspace{\ccwd}谢}%
+        \chapter*{\ustc@acknowledgementsname}%
     \else
-        \chapter[致谢]{致\hspace{\ccwd}谢}%
+        \chapter[\ustc@pdf@acknowledgementsname]{\ustc@acknowledgementsname}%
     \fi}{}
-\newenvironment{publications}{\chapter{在读期间发表的学术论文与取得的研究成果}}{}
+\newenvironment{publications}{\chapter{\ustc@publicationsname}}{}
 \endinput
 %%
 %% End of file `ustcthesis.cls'.
