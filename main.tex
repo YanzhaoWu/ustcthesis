@@ -1,69 +1,54 @@
-%!TEX encoding = UTF-8 Unicode
-%!TEX program = xelatex
+% !TEX encoding = UTF-8
+% !TEX program = xelatex
+% !TEX spellcheck = en_US
 
-\documentclass[doctor]{ustcthesis}
-% bachelor|master|doctor
-\usepackage{ustcextra}
-\graphicspath{{figures/}}
-\bibliographystyle{ustcauthoryear}
-% \bibliographystyle{ustcnumerical}
+\documentclass[degree=doctor]{ustcthesis}
+% degree      = doctor | master | bachelor
+% degree-type = academic | professional | engineering
+% language    = chinese | english
+% fontset     = windows | mac | ubuntu | fandol
+% review      = true | false  % 盲审模式
 
-\title{中国科学技术大学\\毕业论文模板示例文档}
-\author{赵钱孙}
-\major{XXXX专业}
-\advisor{钱学森\ 教授}
-\submitdate{二〇九九年十三月}
-%\secrettext{机密\quad 小于等于20年}   % 内部|秘密|机密，注释本行则不保密
-\depart{一二三系}
+% 加载宏包、全部的配置
+\input{ustcsetup}
 
-\entitle{An Example of USTC Thesis Template for Bachelor, Master and Doctor}
-\enauthor{Qiansun Zhao}
-\enmajor{Whatever}
-\enadvisor{Prof. Xueshen Qian}
-\ensubmitdate{June, 2099}
-%\ensecrettext{Confidential\quad Less than or equal to 20 years}  % Internal|Secret|Confidential
 
 \begin{document}
 
 \maketitle
 
-%
-% 本科论文:
-%   frontmatter: 致谢、目录、中文摘要、英文摘要
-%   mainmatter: 正文章节、参考文献
-%   appendix: 附录
-%
-% 硕博论文:
-%   frontmatter: 中文摘要、英文摘要、目录、符号说明
-%   mainmatter: 正文、参考文献
-%   appendix: 附录
-%   backmatter: 致谢、发表论文
-%
+% 原创性和使用授权声明
+\declarationoforiginality
+% \declarationoforiginality[file=figures/declaration-of-originality-scanned.pdf]
+
+% 使用人工智能工具声明
+% 可选：none | 文献检索 | 语言润色 | 数据处理
+\declarationofaiusage[purpose=none]
+% \declarationofaiusage[purpose=none, file=figures/declaration-of-ai-usage-scanned.pdf]
+
+\include{chapters/innovations}  % 博士学位论文的创新性说明
 
 \frontmatter
-\input{chapters/abstract}
+\include{chapters/abstract}
 \tableofcontents
 \listoffigures
 \listoftables
-\listofalgorithms  % 算法索引，如不需要，可直接注释掉本行
-% \input{chapters/notation}
+% \listoffiguresandtables
+\include{chapters/notation}
 
 \mainmatter
-\input{chapters/intro}
-\input{chapters/figure}
-\input{chapters/table}
-\input{chapters/math}
-\input{chapters/algorithm}
-\input{chapters/code}
-\input{chapters/crossref}
-\input{chapters/citation}
-\bibliography{bib/tex}
+\include{chapters/1-introduction}
+\include{chapters/2-figures-tables}
+\include{chapters/3-math}
+\include{chapters/4-citations}
+
+\printbibliography
 
 \appendix
-\chapter{论文规范}
+\include{chapters/appendix}
 
 \backmatter
-\input{chapters/acknowledgements}
-\input{chapters/publications}
+\include{chapters/acknowledgments}
+\include{chapters/achievements}
 
 \end{document}

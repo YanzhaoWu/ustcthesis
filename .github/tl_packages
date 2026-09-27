@@ -1,0 +1,84 @@
+# The test framework itself
+l3build
+#
+# Required to build formats
+latex-bin
+tex
+#
+# Assuming a 'basic' font set up, metafont is required to avoid
+# warnings with some packages and errors with others
+metafont
+mfware
+# Dependencies for ustcthesis
+amsmath
+bigfoot  # footmisc, perpage
+caption
+cjk  # ctex
+ctex
+enumitem
+fancyhdr
+filehook
+fontspec
+footmisc
+geometry
+graphics
+multirow
+notoccite
+pdflscape  # pdfpages
+pdfpages
+titlesec
+unicode-math
+url
+zhnumber  # ctex
+#
+# Fonts
+fandol
+libertinus-fonts
+newcomputermodern
+newtx
+xpatch  # newtx
+carlisle  # newtx
+oberdiek  # newtx
+stix2-otf
+tex-gyre
+xits
+#
+# Dependencies for XeTeX
+ulem
+xecjk
+xetex
+#
+# Dependencies for LuaTeX
+chinese-jfm
+lualatex-math
+#
+# Dependencies for extra packages
+algorithm2e
+algorithms
+amscls  # amsthm
+biber
+biblatex
+bibtex
+booktabs
+cite  # chapterbib
+float  # algorithms
+hyperref
+ifoddpage  # algorithm2e
+makeindex  # nomencl
+mathtools
+natbib  # bibtex
+nomencl
+relsize  # algorithm2e
+siunitx
+threeparttable
+tools  # longtable
+xkeyval  # nomencl
+#
+# Dependencies for documentation
+hypdoc
+latexmk
+listings
+xcolor
+#
+# Dependencies for tests
+mwe

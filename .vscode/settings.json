@@ -1,0 +1,57 @@
+{
+    "files.associations": {
+        "*.cls": "latex-expl3",
+        "*.lvt": "latex",
+        "*.tlg": "latex-expl3",
+        "*latexmkrc": "perl",
+        "tl_packages*": "shellscript"
+    },
+    "latex-workshop.intellisense.unimathsymbols.enabled": true,
+    "latex-workshop.latex.build.enableMagicComments": false,
+    "latex-workshop.latex.recipes": [
+        {
+            "name": "latexmk (xelatex)",
+            "tools": [
+                "xelatexmk"
+            ]
+        },
+        {
+            "name": "latexmk (lualatex)",
+            "tools": [
+                "lualatexmk"
+            ]
+        }
+    ],
+    "latex-workshop.latex.tools": [
+        {
+            "name": "xelatexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-xelatex",
+                "-bibtex-cond1",
+                "-outdir=%OUTDIR%",
+                "-auxdir=%AUXDIR%",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+        {
+            "name": "lualatexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-lualatex",
+                "-bibtex-cond1",
+                "-outdir=%OUTDIR%",
+                "-auxdir=%AUXDIR%",
+                "%DOC%"
+            ],
+            "env": {}
+        }
+    ]
+}

@@ -1,88 +1,74 @@
-# USTC Thesis
+# 中国科学技术大学学位论文 LaTeX 模板
 
-[![Travis Building](https://travis-ci.org/ustctug/ustcthesis.svg?branch=master)](https://travis-ci.org/ustctug/ustcthesis)
-[![GitHub release](https://img.shields.io/github/release/ustctug/ustcthesis.svg)](https://github.com/ustctug/ustcthesis/releases/latest)
-[![Github All Releases](https://img.shields.io/github/downloads/ustctug/ustcthesis/total.svg)](https://github.com/ustctug/ustcthesis/releases)
-[![GitHub commits](https://img.shields.io/github/commits-since/ustctug/ustcthesis/v2.2.4.svg)](https://github.com/ustctug/ustcthesis/commits/master)
+[![GitHub release](https://img.shields.io/github/release/ustctug/ustcthesis/all.svg)](https://github.com/ustctug/ustcthesis/releases/latest)
+[![GitHub commits](https://img.shields.io/github/commits-since/ustctug/ustcthesis/latest.svg)](https://github.com/ustctug/ustcthesis/commits/master)
+[![Test](https://github.com/ustctug/ustcthesis/actions/workflows/test.yml/badge.svg)](https://github.com/ustctug/ustcthesis/actions/workflows/test.yml)
 
-本项目是中国科学技术大学的毕业论文 LaTeX 模板 ustcthesis v2.2.4。
+本项目是中国科学技术大学的学位论文 LaTeX 模板 ustcthesis，按照
+研究生院《[学位论文撰写模板](https://gradschool.ustc.edu.cn/column/65)》（2025-03-31）、
+教务处《[\[2025\]32号 中国科学技术大学本科毕业论文（设计）质量标准（试行）](https://www.teach.ustc.edu.cn/?attachment_id=19501)》
+和
+《[中国科学技术大学本科毕业论文（设计）格式式样](https://www.teach.ustc.edu.cn/?attachment_id=13867)》（2026-04-24）
+的要求编写，兼容最新版的 TeX Live、MacTeX 、MiKTeX 发行版，支持跨平台使用。
 
-新模板进行了彻底的重写，相对于旧版
-[ywgATustcbbs/ustcthesis](https://github.com/ywgATustcbbs/ustcthesis)
-有以下主要特性：
+注意：
 
-* 与最新的 TeX Live 和 ctex 2.x 宏包兼容
-* 根据操作系统自动配置字体（Windows, Mac OS X, Ubuntu）
-* 设置了符合规范的参考文献的格式（支持 author-year 和 numerical 两种格式）
-* 修正了字号的设置错误
-* 修正了本科生的页码位置
-* 提供了更详细的文档
+1. 使用说明文档 `ustcthesis-doc.pdf` 在发布版中附带，用户也可自行编译；**使用模板前应仔细阅读**。
 
-使用前请注意：
+2. 本模板要求 TeX Live、MacTeX、MiKTeX 不低于 2021 年的发行版，
+并且尽可能升级到最新。安装和升级方法见
+[新手指南](https://github.com/ustctug/ustcthesis/wiki/新手指南)。
 
-1. **使用模板前应阅读[说明文档 `ustcthesis.pdf`](https://git.ustclug.org/ustctug/ustcthesis/uploads/ddfd447fc6b125bd628051916e209a33/ustcthesis.pdf) 的正文部分**
-2. **本模板仅适用于最新版 [TeX Live](https://www.tug.org/texlive/) 、 [MacTeX](https://www.tug.org/mactex/) 、 [MikTeX](http://www.miktex.org/)，不对旧版本向下兼容**
-3. 应使用 `tlmgr` 将各个宏包升级到最新
-4. **[CTeX套装](http://www.ctex.org/CTeXDownload) v2.9.2.164 发布于2012年，无法使用此模板，用户请使用旧模板**
+3. **不支持** [CTeX 套装](https://github.com/ustctug/ustcthesis/wiki/常见问题#3-模板支持用-ctex-套装编译吗)。
 
 
 ## 下载地址
 
-* GitHub Release：https://github.com/ustctug/ustcthesis/releases
-* 校内镜像：https://git.ustclug.org/ustctug/ustcthesis/tags
+- GitHub Releases：<https://github.com/ustctug/ustcthesis/releases>
+
+- TexPage 模板 <https://texpage.com/template/fe69d6fc-f811-4b8c-824f-7848a07c9551>
+
+- LoongTeX <https://www.loongtex.com/>
+
+- Overleaf 模板 <https://www.overleaf.com/latex/templates/latex-template-for-ustc-thesis/qbfkwzbrfhbr>
+
+- 研究生院网站（版本可能较旧）：<https://gradschool.ustc.edu.cn/column/65>
 
 
-## 使用说明
+## 编译文档
 
-### 通用使用说明
+- 编译模板的使用说明文档 `ustcthesis-doc.pdf`：
+  ```
+  latexmk -xelatex ustcthesis-doc.tex
+  ```
+- 编译论文 `main.pdf`：
+  ```
+  latexmk -xelatex main.tex
+  ```
+- 如需清理论文编译过程中的临时文件，可以：
+  ```
+  latexmk -c
+  ```
 
-1. 下载模板。有三种方式可以选择：
+- 以上编译过程也可以用 `make` 工具：
+  ```
+  make doc        # 编译生成 ustcthesis-doc.pdf
+  make            # 编译生成论文 main.pdf
+  make clean      # 删除编译过程中生成的临时文件
+  ```
 
-   1. 可以直接下载发布版，发布版的特点在于稳定且经过测试，但更新不够及时，已知BUG无法及时修复
-   2. 可以直接点击“Download ZIP”下载最新的开发版，开发版的特点在于更新及时，随时修复已知BUG
-   3. git用户可以直接clone开发版的源码
+## 反馈问题
 
-      ```
-      git clone https://github.com/ustctug/ustcthesis.git
-      ```
+如果发现模板有问题，请按照以下步骤操作：
 
-2. 编译生成模板的说明文档 `ustcthesis.pdf` ，并仔细阅读正文部分对模板使用的介绍
-
-   ```
-   latexmk ustcthesis.dtx       # 编译生成 ustcthesis.pdf
-   latexmk -c ustcthesis.dtx    # 清理编译过程中的临时文件
-   ```
-
-3. 参考示例文档 `main.tex` 写自己的论文，使用如下命令生成论文 `main.pdf`：
-
-   ```
-   latexmk
-   ```
-
-   如需清理论文生成过程中的临时文件，可以用命令：
-
-   ```
-   latexmk -c
-   ```
-
-   修改论文的过程中，需要经常重复此步骤。
-
-### Linux/Mac用户使用说明
-
-模板为Linux/Mac用户提供了Makefile文件，可以用如下 `make` 命令替换通用使用说明中的一些命令：
-
-```
-make doc        # 编译生成 ustcthesis.pdf
-make            # 编译生成论文 main.pdf
-make clean      # 删除编译过程中生成的临时文件
-make distclean   # 删除编译过程中生成的临时文件以及生成的PDF
-```
-
-### Windows用户使用说明
-
-Windows用户请参照通用使用说明，暂不提供Windows下的bat脚本。
-
-
-## 参考规范：
-* [《中国科学技术大学研究生学位论文撰写规范》](http://gradschool.ustc.edu.cn/ylb/material/xw/wdxz/1.doc)
-* [《关于本科毕业论文（设计）格式和统一封面的通知》](http://www.teach.ustc.edu.cn/document/doc-administration/4032.html)
+1. 阅读学校的标准，判断是否符合学校的要求；
+2. 将模板升级到 Github 上最新版本，查看问题是否已经修复；
+3. 在 [GitHub Issues](https://github.com/ustctug/ustcthesis/issues)
+  中搜索该问题的关键词；
+4. 在 [GitHub Issues](https://github.com/ustctug/ustcthesis/issues)
+  中提出新 issue，或者联系模板作者 Zeping Lee <zepinglee@gmail.com>，
+  并提供以下信息：
+  - 使用了什么版本的 TeX Live / MacTeX / MiKTeX ？
+  - 具体的问题是什么？
+  - 预期的结果应该是什么样的？
+  - 在必要时附上相关源码或者截图

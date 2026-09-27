@@ -1,48 +1,53 @@
-.PHONY : main cls doc clean all inst install distclean zip FORCE_MAKE
-
+MAIN = main
 NAME = ustcthesis
-VERSION=$(shell cat ustcthesis.dtx | egrep -o "\[\d\d\d\d/\d\d\/\d\d v.+\]" | egrep -o "v\S+")
-UTREE = $(shell kpsewhich --var-value TEXMFHOME)
-LOCAL = $(shell kpsewhich --var-value TEXMFLOCAL)
+CLSFILES = $(NAME).cls
+BSTFILES = $(NAME)-numeric.bst $(NAME)-authoryear.bst
 
-main : cls FORCE_MAKE
-	latexmk -xelatex -shell-escape -use-make
+SHELL = bash
+LATEXMK = latexmk -xelatex
+VERSION = $(shell cat $(NAME).cls | egrep -o "\\ustcthesisversion{[0-9.]+[0-9a-z.-]*" \
+	  | egrep -o "[0-9.]+[0-9a-z.-]*")
+TEXMF = $(shell kpsewhich --var-value TEXMFHOME)
+
+.PHONY : main cls doc test save clean all install distclean zip FORCE_MAKE
+
+main : $(MAIN).pdf
 
 all : main doc
 
-cls : $(NAME).cls
+cls : $(CLSFILES) $(BSTFILES)
 
-doc : $(NAME).pdf
+doc : $(NAME)-doc.pdf
 
-$(NAME).cls : $(NAME).dtx
-	xetex $<
+$(MAIN).pdf : $(MAIN).tex $(CLSFILES) $(BSTFILES) FORCE_MAKE
+	$(LATEXMK) $<
 
-$(NAME).pdf : $(NAME).dtx FORCE_MAKE
-	latexmk -xelatex $<
+$(NAME)-doc.pdf : $(NAME)-doc.tex FORCE_MAKE
+	$(LATEXMK) $<
 
-clean :
-	latexmk -c
-	latexmk -c $(NAME).dtx
+test:
+	l3build check
 
-distclean :
-	latexmk -C
-	latexmk -C $(NAME).dtx
+save:
+	bash tests/save.sh
 
-inst : cls doc
-	mkdir -p $(UTREE)/{tex,source,doc}/latex/$(NAME)
-	cp $(NAME).dtx $(UTREE)/source/latex/$(NAME)
-	cp $(NAME).cls $(UTREE)/tex/latex/$(NAME)
-	cp $(NAME).pdf $(UTREE)/doc/latex/$(NAME)
+clean : FORCE_MAKE
+	$(LATEXMK) -c $(MAIN).tex $(NAME)-doc.tex
+
+cleanall :
+	$(LATEXMK) -C $(MAIN).tex $(NAME)-doc.tex
 
 install : cls doc
-	sudo mkdir -p $(LOCAL)/{tex,source,doc}/latex/$(NAME)
-	sudo cp $(NAME).dtx $(LOCAL)/source/latex/$(NAME)
-	sudo cp $(NAME).cls $(LOCAL)/tex/latex/$(NAME)
-	sudo cp $(NAME).pdf $(LOCAL)/doc/latex/$(NAME)
+	mkdir -p $(TEXMF)/{doc,source,tex}/latex/$(NAME)
+	mkdir -p $(TEXMF)/bibtex/bst/$(NAME)
+	cp $(BSTFILES) $(TEXMF)/bibtex/bst/$(NAME)
+	cp $(NAME)-doc.pdf $(TEXMF)/doc/latex/$(NAME)/$(NAME).pdf
+	cp $(CLSFILES) $(TEXMF)/tex/latex/$(NAME)
 
-zip : cls doc
-	mkdir $(NAME)
-	cp -r $(NAME).{dtx,cls,pdf} ustc*.bst README.md main.tex ustcextra.sty \
-		bib chapters figures .latexmkrc Makefile $(NAME)
-	zip -r ../$(NAME)-$(VERSION).zip $(NAME)
-	rm -r $(NAME)
+zip : main doc
+	ln -sf . $(NAME)
+	zip -r $(NAME)-v$(VERSION).zip $(NAME)/{*.md,LICENSE,\
+	$(NAME)-doc.tex,$(NAME)-doc.pdf,$(NAME).cls,*.bst,*.bbx,*.cbx,figures,\
+	$(MAIN).tex,ustcsetup.tex,references.bib,chapters/*.tex,$(MAIN).pdf,\
+	latexmkrc,Makefile}
+	rm $(NAME)
